@@ -51,8 +51,8 @@ def request_imdb_movie_actors(movie_name):
         raise ApiError('GET /tasks/ {}'.format(response.status_code))
     else:
         actors = response.json()['Actors']
-        #actor_list = actors.split(',')
-        return actors
+        actor_list = actors.split(',')
+        return actor_list
 
 class IMDBRatingSkill(MycroftSkill):
     
@@ -60,15 +60,15 @@ class IMDBRatingSkill(MycroftSkill):
     def __init__(self):
         super(IMDBRatingSkill, self).__init__(name="IMDBRatingSkill")
 
-    @intent_handler(IntentBuilder("").require("Actors").optionally("Playing").require("Movie_Actors"))
+    @intent_handler(IntentBuilder("").optionally("IMDB").require("Rating").require("Movie"))
     def handle_actor_intent(self, message):
         movie_name = message.data.get("Movie")
         try:
-            imdb_rating = request_imdb_rating(movie_name)
+            movie_actors = request_imdb_movie_actors(movie_name)
         except APIError:
             self.speak_dialog("cannot.connect")
             return
-        self.speak_dialog("movie.is.rated", {'rating': imdb_rating})
+        self.speak_dialog("actors.are.in.movie", {'actors': movie_actors})
 
     # @intent_handler(IntentBuilder("").optionally("IMDB").require("Rating").require("Movie"))
     # def handle_rating_intent(self, message):
