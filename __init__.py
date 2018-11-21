@@ -51,8 +51,8 @@ def request_imdb_movie_actors(movie_name):
         raise ApiError('GET /tasks/ {}'.format(response.status_code))
     else:
         actors = response.json()['Actors']
-        actor_list = actors.split(',')
-        return actor_list
+        #actor_list = actors.split(',')
+        return actors
 
 class IMDBRatingSkill(MycroftSkill):
     
