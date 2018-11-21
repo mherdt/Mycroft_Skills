@@ -60,6 +60,16 @@ class IMDBRatingSkill(MycroftSkill):
     def __init__(self):
         super(IMDBRatingSkill, self).__init__(name="IMDBRatingSkill")
 
+    @intent_handler(IntentBuilder("").require("Actors").optionally("Playing").require("Movie_Actors"))
+    def handle_actor_intent(self, message):
+        movie_name = message.data.get("Movie")
+        try:
+            movie_actors = request_imdb_movie_actors(movie_name)
+        except APIError:
+            self.speak_dialog("cannot.connect")
+            return
+        self.speak_dialog("actors.are.in.movie", {'actors': movie_actors})
+
     @intent_handler(IntentBuilder("").optionally("IMDB").require("Rating").require("Movie"))
     def handle_rating_intent(self, message):
         movie_name = message.data.get("Movie")
@@ -70,16 +80,7 @@ class IMDBRatingSkill(MycroftSkill):
             return
         self.speak_dialog("movie.is.rated", {'rating': imdb_rating})
 
-    @intent_handler(IntentBuilder("").require("Actors").optionally("Acting").require("Movie_Actors"))
-    def handle_actor_intent(self, message):
-        #movie_name = message.data.get("Movie")
-        try:
-            movie_actors = request_imdb_movie_actors("passengers")
-        except APIError:
-            self.speak_dialog("cannot.connect")
-            return
-        self.speak_dialog("actors.are.in.movie", {'actors': movie_actors})
-
+    
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
     # is extremely simple, there is no need to override it.  If you DO
