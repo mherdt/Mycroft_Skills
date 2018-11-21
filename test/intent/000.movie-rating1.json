@@ -1,0 +1,5 @@
+{
+    "utterance": "what is the IMDB rating of the movie Passengers",
+    "intent_type": "handle_rating_intent",
+    "expected_dialog": "movie.is.rated"
+}
