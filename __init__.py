@@ -60,7 +60,7 @@ class IMDBRatingSkill(MycroftSkill):
     def __init__(self):
         super(IMDBRatingSkill, self).__init__(name="IMDBRatingSkill")
 
-    @intent_handler(IntentBuilder("").optionally("Playing").require("Actors").require("Movie_Actors"))
+    @intent_handler(IntentBuilder("").optionally("Playing").require("Actors").require("Movie"))
     def handle_actor_intent(self, message):
         movie_name = message.data.get("Movie")
         try:
