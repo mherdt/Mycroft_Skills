@@ -70,11 +70,11 @@ class IMDBRatingSkill(MycroftSkill):
             return
         self.speak_dialog("movie.is.rated", {'rating': imdb_rating})
 
-    @intent_handler(IntentBuilder("").require("Actors").require("IMDB").optionally("Acting").require("Movie_Actors"))
+    @intent_handler(IntentBuilder("").require("Actors").optionally("Acting").require("Movie_Actors"))
     def handle_actor_intent(self, message):
-        movie_name = message.data.get("Movie")
+        #movie_name = message.data.get("Movie")
         try:
-            movie_actors = request_imdb_movie_actors(movie_name)
+            movie_actors = request_imdb_movie_actors("passengers")
         except APIError:
             self.speak_dialog("cannot.connect")
             return
