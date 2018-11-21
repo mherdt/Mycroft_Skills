@@ -60,7 +60,7 @@ class IMDBRatingSkill(MycroftSkill):
     def __init__(self):
         super(IMDBRatingSkill, self).__init__(name="IMDBRatingSkill")
 
-    @intent_handler(IntentBuilder("").optionally("Playing").require("Actors").require("Movie"))
+    @intent_handler(IntentBuilder("").optionally("IMDB").require("Rating").require("Movie"))
     def handle_actor_intent(self, message):
         movie_name = message.data.get("Movie")
         try:
@@ -70,15 +70,15 @@ class IMDBRatingSkill(MycroftSkill):
             return
         self.speak_dialog("actors.are.in.movie", {'actors': movie_actors})
 
-    @intent_handler(IntentBuilder("").optionally("IMDB").require("Rating").require("Movie"))
-    def handle_rating_intent(self, message):
-        movie_name = message.data.get("Movie")
-        try:
-            imdb_rating = request_imdb_rating(movie_name)
-        except APIError:
-            self.speak_dialog("cannot.connect")
-            return
-        self.speak_dialog("movie.is.rated", {'rating': imdb_rating})
+    # @intent_handler(IntentBuilder("").optionally("IMDB").require("Rating").require("Movie"))
+    # def handle_rating_intent(self, message):
+    #     movie_name = message.data.get("Movie")
+    #     try:
+    #         imdb_rating = request_imdb_rating(movie_name)
+    #     except APIError:
+    #         self.speak_dialog("cannot.connect")
+    #         return
+    #     self.speak_dialog("movie.is.rated", {'rating': imdb_rating})
 
     
     # The "stop" method defines what Mycroft does when told to stop during
