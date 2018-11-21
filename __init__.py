@@ -65,7 +65,7 @@ class IMDBRatingSkill(MycroftSkill):
         movie_name = message.data.get("Movie")
         try:
             movie_actors = request_imdb_movie_actors(movie_name)
-        except APIError:
+        except:
             self.speak_dialog("cannot.connect")
             return
         self.speak_dialog("actors.are.in.movie", {'actors': movie_actors})
